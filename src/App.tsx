@@ -11,6 +11,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [initialTime, setInitialTime] = useState(60);
   const [streak, setStreak] = useState(0);
   const [pointsScored, setPointsScored] = useState<number | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -45,13 +46,14 @@ function App() {
     }
   }, [pointsScored]);
 
-  const startGame = (selectedMultipliers: number[]) => {
+  const startGame = (selectedMultipliers: number[], time: number) => {
     console.log('Starting game with multipliers:', selectedMultipliers);
     setGameActive(true);
     setScore(0);
     setAttempts(0);
     setStreak(0);
-    setTimeLeft(60);
+    setTimeLeft(time);
+    setInitialTime(time);
     setCorrectAnswers(0);
     setMultipliers(selectedMultipliers);
   };
@@ -78,7 +80,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<IndexPage startGame={startGame} />} />
+      <Route path="/" element={<IndexPage startGame={startGame} setTimeLeft={setTimeLeft} />} />
       <Route path="/game" element={
         <div className="h-[100dvh] bg-gradient-to-b from-blue-700 to-blue-800 text-white p-4 flex flex-col">
           <div className="w-full h-full max-w-md mx-auto flex flex-col">
@@ -112,7 +114,8 @@ function App() {
                   score={score}
                   attempts={attempts}
                   correctAnswers={correctAnswers}
-                  onRestart={() => startGame(multipliers)}
+                  initialTime={initialTime}
+                  onRestart={() => startGame(multipliers, initialTime)}
                 />
               )}
             </div>
