@@ -8,7 +8,8 @@ export default function App() {
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
-  const [debug, setDebug] = useState(false); // Pda0e
+  const [streak, setStreak] = useState(0);  // Track streak count
+  const [debug, setDebug] = useState(false);
 
   useEffect(() => {
     if (gameActive && timeLeft > 0) {
@@ -25,29 +26,34 @@ export default function App() {
     setGameActive(true);
     setScore(0);
     setAttempts(0);
+    setStreak(0); // Reset streak at the start
     setTimeLeft(60);
   };
 
   const handleCorrectAnswer = () => {
     setScore((prev) => prev + 1);
     setAttempts((prev) => prev + 1);
+    setStreak((prev) => prev + 1); // Increment streak
   };
 
   const handleWrongAnswer = () => {
     setAttempts((prev) => prev + 1);
+    setStreak(0); // Reset streak on wrong answer
   };
 
   return (
-    <div className="h-[100dvh] bg-gradient-to-b from-violet-500 to-purple-700 text-white p-4 flex flex-col">
+    <div className="h-[100dvh] bg-gradient-to-b from-blue-700 to-blue-800 text-white p-4 flex flex-col">
       <div className="w-full h-full max-w-md mx-auto flex flex-col">
         <div className="flex justify-between items-center gap-4 mb-2">
           <div className="flex items-center gap-2 text-xl font-bold">
             <Timer className="w-6 h-6" />
             {timeLeft}s
           </div>
-          {gameActive && <div className="text-xl font-bold text-center flex-1">
-            Streak: {score % 5}/5
-          </div>}
+          {gameActive && (
+            <div className="text-xl font-bold text-center flex-1">
+              Streak: {streak} {/* Display streak count */}
+            </div>
+          )}
           <div className="text-xl font-bold">
             {score}/{attempts}
           </div>
@@ -59,7 +65,7 @@ export default function App() {
               <h1 className="text-4xl font-bold mb-8">Math Practice</h1>
               <button
                 onClick={startGame}
-                className="bg-white text-purple-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg hover:bg-purple-100 transition-colors inline-flex items-center gap-2"
+                className="bg-white text-blue-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg hover:bg-purple-100 transition-colors inline-flex items-center gap-2"
               >
                 <Calculator className="w-6 h-6" />
                 Start Game
@@ -68,7 +74,12 @@ export default function App() {
           )}
 
           {gameActive && (
-            <Game onCorrect={handleCorrectAnswer} onWrong={handleWrongAnswer} debug={debug} /> // P31ad
+            <Game 
+              onCorrect={handleCorrectAnswer} 
+              onWrong={handleWrongAnswer} 
+              debug={debug} 
+              streak={streak}  // Pass streak to Game
+            />
           )}
 
           {!gameActive && timeLeft === 0 && (

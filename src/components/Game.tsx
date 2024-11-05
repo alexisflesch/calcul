@@ -6,17 +6,15 @@ import { Numpad } from './Numpad';
 interface GameProps {
   onCorrect: () => void;
   onWrong: () => void;
-  debug: boolean; // P27ff
+  debug: boolean;
+  streak: number; // Add streak as a prop
 }
 
-export function Game({ onCorrect, onWrong, debug }: GameProps) { // P27ff
+export function Game({ onCorrect, onWrong, debug, streak }: GameProps) {
   const [firstNumber, setFirstNumber] = useState(0);
   const [secondNumber, setSecondNumber] = useState(0);
   const [answer, setAnswer] = useState('');
-  const [streak, setStreak] = useState(0);
-  const [showFeedback, setShowFeedback] = useState<'correct' | 'wrong' | null>(
-    null
-  );
+  const [showFeedback, setShowFeedback] = useState<'correct' | 'wrong' | null>(null);
 
   const generateQuestion = () => {
     setFirstNumber(Math.floor(Math.random() * 10) + 1);
@@ -44,30 +42,28 @@ export function Game({ onCorrect, onWrong, debug }: GameProps) { // P27ff
 
     if (userAnswer === correctAnswer) {
       setShowFeedback('correct');
-      setStreak((prev) => prev + 1);
-      onCorrect();
+      onCorrect(); // Call parent function to update streak
       setTimeout(() => {
         setShowFeedback(null);
         generateQuestion();
       }, 500);
     } else {
       setShowFeedback('wrong');
-      setStreak(0);
-      onWrong();
+      onWrong(); // Call parent function to reset streak
       setTimeout(() => {
         setShowFeedback(null);
         setAnswer('');
       }, 500);
     }
 
-    if (debug) { // Pe9a2
-      setStreak((prev) => prev + 1); // Pe9a2
-    } // Pe9a2
+    if (debug) {
+      onCorrect(); // Increment streak in debug mode
+    }
   };
 
   return (
     <div className="flex flex-col h-screen max-h-screen justify-between gap-4 overflow-hidden">
-      <Streak count={streak} />
+      <Streak count={streak} debug={debug} /> {/* Display streak prop */}
 
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 relative flex items-center justify-center max-h-[30vh] min-h-[80px] overflow-hidden">
         <div className="text-5xl md:text-6xl font-bold text-center">
