@@ -3,20 +3,19 @@ import { Star } from 'lucide-react';
 
 interface StreakProps {
   count: number;
+  debug: boolean;
 }
 
-export function Streak({ count }: StreakProps) {
+export function Streak({ count, debug }: StreakProps) {
   const [showStars, setShowStars] = useState(false);
   const starCount = Math.floor(count / 5);
 
   useEffect(() => {
-    // if (count > 0 && count % 5 === 0) {
-    setShowStars(true);
-    setTimeout(() => setShowStars(false), 3000);
-    // }
-  }, [count]);
-
-  // if (count === 0) return null;
+    if (debug || (count > 0 && count % 5 === 0)) {
+      setShowStars(true);
+      setTimeout(() => setShowStars(false), 3000);
+    }
+  }, [count, debug]);
 
   return (
     <div className="relative w-full mb-6">

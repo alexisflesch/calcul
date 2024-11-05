@@ -8,6 +8,7 @@ export default function App() {
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [debug, setDebug] = useState(false); // Pda0e
 
   useEffect(() => {
     if (gameActive && timeLeft > 0) {
@@ -67,7 +68,7 @@ export default function App() {
           )}
 
           {gameActive && (
-            <Game onCorrect={handleCorrectAnswer} onWrong={handleWrongAnswer} />
+            <Game onCorrect={handleCorrectAnswer} onWrong={handleWrongAnswer} debug={debug} /> // P31ad
           )}
 
           {!gameActive && timeLeft === 0 && (

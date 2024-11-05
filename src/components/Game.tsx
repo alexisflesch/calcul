@@ -6,9 +6,10 @@ import { Numpad } from './Numpad';
 interface GameProps {
   onCorrect: () => void;
   onWrong: () => void;
+  debug: boolean; // P27ff
 }
 
-export function Game({ onCorrect, onWrong }: GameProps) {
+export function Game({ onCorrect, onWrong, debug }: GameProps) { // P27ff
   const [firstNumber, setFirstNumber] = useState(0);
   const [secondNumber, setSecondNumber] = useState(0);
   const [answer, setAnswer] = useState('');
@@ -58,6 +59,10 @@ export function Game({ onCorrect, onWrong }: GameProps) {
         setAnswer('');
       }, 500);
     }
+
+    if (debug) { // Pe9a2
+      setStreak((prev) => prev + 1); // Pe9a2
+    } // Pe9a2
   };
 
   return (
