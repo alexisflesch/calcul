@@ -9,7 +9,7 @@ interface NumpadProps {
 }
 
 export function Numpad({ onNumber, onDelete, onEnter, disabled }: NumpadProps) {
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -30,6 +30,13 @@ export function Numpad({ onNumber, onDelete, onEnter, disabled }: NumpadProps) {
           className="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Delete className="w-6 h-6" />
+        </button>
+        <button
+          onClick={() => onNumber(0)} // Ensure the 0 button triggers the onNumber event
+          disabled={disabled}
+          className="aspect-square rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors flex items-center justify-center text-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          0
         </button>
         <button
           onClick={onEnter}

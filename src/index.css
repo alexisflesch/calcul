@@ -6,6 +6,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -16,6 +17,41 @@
 }
 
 
+@keyframes fly-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.animate-fly-up {
+  animation: fly-up 1s ease-out forwards;
+}
+
+
+.points-scored {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fly-up 1s ease-out forwards;
+}
+
+@keyframes fly-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
 
 /* Prevent scrolling on mobile */
 html,
