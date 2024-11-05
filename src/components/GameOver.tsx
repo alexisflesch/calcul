@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RefreshCw, Star } from 'lucide-react';
 
@@ -12,12 +12,22 @@ interface GameOverProps {
 
 export function GameOver({ score, attempts, correctAnswers, initialTime, onRestart }: GameOverProps) {
   const navigate = useNavigate();
-  const percentage = attempts > 0 ? Math.round((correctAnswers / attempts) * 100) : 0;
-  const stars = Math.floor(score / 10);
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setButtonEnabled(true);
+    }, 2000); // Enable the button after 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handlePlayAgain = () => {
     navigate('/');
   };
+
+  const percentage = attempts > 0 ? Math.round((correctAnswers / attempts) * 100) : 0;
+  const stars = Math.floor(score / 10);
 
   return (
     <div className="text-center">
@@ -37,7 +47,7 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, onResta
             <div className="text-sm opacity-75">Total</div>
           </div>
           <div>
-            <div className="text-3xl font-bold"> {Math.round(correctAnswers * 60 / initialTime)}</div>
+            <div className="text-3xl font-bold">{Math.round(correctAnswers * 60 / initialTime)}</div>
             <div className="text-sm opacity-75">Mult/min</div>
           </div>
           <div>
@@ -49,11 +59,11 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, onResta
             <div className="text-sm opacity-75">Temps</div>
           </div>
         </div>
-        {/* <div className="text-xl mb-4">Score: {score}</div> */}
         <br />
         <button
           onClick={handlePlayAgain}
-          className="bg-white text-blue-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg hover:bg-blue-100 transition-colors inline-flex items-center gap-2"
+          className={`bg-white text-blue-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg transition-colors inline-flex items-center gap-2 ${buttonEnabled ? 'hover:bg-blue-100' : 'opacity-50 cursor-not-allowed'}`}
+          disabled={!buttonEnabled}
         >
           <RefreshCw className="w-6 h-6" />
           Rejouer
