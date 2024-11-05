@@ -27,7 +27,7 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, onResta
         <div className="text-5xl font-bold mb-2">{percentage}%</div>
         <div className="text-xl mb-4">Précision</div>
 
-        <div className="grid grid-cols-4 gap-4 text-center mb-4">
+        <div className="grid grid-cols-5 gap-4 text-center mb-4">
           <div>
             <div className="text-3xl font-bold">{correctAnswers}</div>
             <div className="text-sm opacity-75">Correct</div>
@@ -37,12 +37,16 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, onResta
             <div className="text-sm opacity-75">Total</div>
           </div>
           <div>
-            <div className="text-3xl font-bold"> {Math.round(score * 100 / initialTime)}</div>
+            <div className="text-3xl font-bold"> {Math.round(correctAnswers * 60 / initialTime)}</div>
             <div className="text-sm opacity-75">Mult/min</div>
           </div>
           <div>
             <div className="text-3xl font-bold">{score}</div>
-            <div className="text-sm opacity-75">Score</div>
+            <div className="text-sm opacity-75">Points</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold">{initialTime}</div>
+            <div className="text-sm opacity-75">Temps</div>
           </div>
         </div>
         {/* <div className="text-xl mb-4">Score: {score}</div> */}
