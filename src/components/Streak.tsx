@@ -13,7 +13,7 @@ export function Streak({ count, debug }: StreakProps) {
   useEffect(() => {
     if (debug || (count > 0 && count % 5 === 0)) {
       setShowStars(true);
-      setTimeout(() => setShowStars(false), 1000); // Hide stars after 2 seconds
+      setTimeout(() => setShowStars(false), 1200); // Hide stars after 2 seconds
     }
   }, [count, debug]);
 

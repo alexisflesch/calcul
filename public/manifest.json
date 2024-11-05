@@ -1,7 +1,7 @@
 {
   "name": "Math Practice",
   "short_name": "Math",
-  "description": "Fun multiplication practice for kids",
+  "description": "Fun multiplication practice",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#8b5cf6",
