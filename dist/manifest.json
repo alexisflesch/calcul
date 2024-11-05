@@ -2,7 +2,7 @@
   "name": "Math Practice",
   "short_name": "Math",
   "description": "Fun multiplication practice",
-  "start_url": "/",
+  "start_url": "/calcul/",
   "display": "standalone",
   "background_color": "#8b5cf6",
   "theme_color": "#8b5cf6",
