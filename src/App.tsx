@@ -89,7 +89,7 @@ function App() {
                 <Timer className="w-6 h-6" />
                 {timeLeft}s
               </div>
-              <div className="relative text-xl font-bold">
+              <div className="relative text-2xl font-bold">
                 {score}
                 {pointsScored !== null && (
                   <div className="absolute top-0 left-full ml-2 animate-fly-up text-green-500">
