@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Calculator } from 'lucide-react';
+
 
 const defaultMultipliers = [3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -79,10 +81,13 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
                 <br />
                 <button
                     onClick={handleStartGame}
-                    className="bg-white text-blue-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg hover:bg-blue-100 transition-colors"
+                    className="bg-white text-blue-600 rounded-full px-8 py-4 text-xl font-bold shadow-lg hover:bg-blue-100 transition-colors flex justify-center items-center relative"
                 >
-                    Commencer
+                    <Calculator className="w-6 h-6 ml-2 absolute left-4" />
+                    <span>Commencer</span>
                 </button>
+
+
             </div>
         </div>
     );
