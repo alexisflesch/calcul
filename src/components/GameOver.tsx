@@ -8,10 +8,11 @@ interface GameOverProps {
   correctAnswers: number;
   initialTime: number;
   multipliers: number[];
+  selectedMode: "Multiplications" | "Additions";
   onRestart: () => void;
 }
 
-export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, onRestart }: GameOverProps) {
+export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, onRestart, selectedMode }: GameOverProps) {
   const navigate = useNavigate();
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -62,7 +63,12 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
         </div>
         <br />
 
-        <div className="text-xl mb-4">Tables : {multipliers.join(', ')}.</div>
+        <div className="text-2xl mb-4 ml-3 text-left font-bold">
+          {selectedMode === 'Multiplications' ?
+            <span>Tables : {multipliers.join(', ')}.</span>
+            :
+            <span>Additions</span>}
+        </div>
 
         <br />
         <button

@@ -8,9 +8,10 @@ interface GameProps {
   debug: boolean;
   streak: number;
   multipliers: number[];
+  selectedMode: "Multiplications" | "Additions";
 }
 
-export function Game({ onCorrect, onWrong, debug, streak, multipliers }: GameProps) {
+export function Game({ onCorrect, onWrong, debug, streak, multipliers, selectedMode }: GameProps) {
   const [firstNumber, setFirstNumber] = useState(0);
   const [secondNumber, setSecondNumber] = useState(0);
   const [answer, setAnswer] = useState('');
@@ -19,9 +20,24 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers }: GamePro
   const [showRedCross, setShowRedCross] = useState(false);
 
   const generateQuestion = () => {
-    // Pick random numbers from the multipliers array
-    const randomFirstNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
-    const randomSecondNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
+    let randomFirstNumber;
+    let randomSecondNumber;
+
+    if (selectedMode === 'Additions') {
+      // Pick two random numbers between 1 and 12. Lower probability for 1 and 2
+      if (Math.random() < .3) {
+        randomFirstNumber = Math.floor(Math.random() * 12) + 1;
+        randomSecondNumber = Math.floor(Math.random() * 12) + 1;
+      }
+      else {
+        randomFirstNumber = Math.floor(Math.random() * 10) + 3;
+        randomSecondNumber = Math.floor(Math.random() * 10) + 3;
+      }
+    } else {
+      // Pick random numbers from the multipliers array
+      randomFirstNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
+      randomSecondNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
+    }
     setFirstNumber(randomFirstNumber);
     setSecondNumber(randomSecondNumber);
     setAnswer('');
@@ -60,7 +76,13 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers }: GamePro
   };
 
   const handleSubmit = () => {
-    const correctAnswer = firstNumber * secondNumber;
+    let correctAnswer;
+    if (selectedMode === 'Additions') {
+      correctAnswer = firstNumber + secondNumber;
+    }
+    else {
+      correctAnswer = firstNumber * secondNumber;
+    }
     const userAnswer = parseInt(answer, 10);
 
     if (userAnswer === correctAnswer) {
@@ -100,7 +122,8 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers }: GamePro
     <div className="flex flex-col h-screen max-h-screen justify-between gap-4 overflow-hidden">
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 relative flex items-center justify-center max-h-[30vh] min-h-[80px] overflow-hidden">
         <div className="text-5xl md:text-6xl font-bold text-center">
-          {firstNumber} × {secondNumber} = {answer || '_'}
+          {selectedMode === 'Additions' ? `${firstNumber} + ${secondNumber} ` : `${firstNumber} × ${secondNumber} `}
+          = {answer || '_'}
         </div>
       </div>
 

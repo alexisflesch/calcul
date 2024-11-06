@@ -16,6 +16,8 @@ function App() {
   const [pointsScored, setPointsScored] = useState<number | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [multipliers, setMultipliers] = useState<number[]>([3, 4, 5, 6, 7, 8, 9, 10]);
+  const [selectedMode, setSelectedMode] = useState<"Multiplications" | "Additions">("Multiplications"); // Track selected mode
+
 
   const location = useLocation();
 
@@ -80,7 +82,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<IndexPage startGame={startGame} setTimeLeft={setTimeLeft} />} />
+      <Route path="/" element={<IndexPage startGame={startGame} setTimeLeft={setTimeLeft} selectedMode={selectedMode} setSelectedMode={setSelectedMode} />} />
       <Route path="/game" element={
         <div className="h-[100dvh] bg-gradient-to-b from-blue-700 to-blue-800 text-white p-4 flex flex-col">
           <div className="w-full h-full max-w-md mx-auto flex flex-col">
@@ -107,6 +109,7 @@ function App() {
                   streak={streak}
                   multipliers={multipliers}
                   debug={false}
+                  selectedMode={selectedMode}
                 />
               )}
               {!gameActive && timeLeft === 0 && (
@@ -116,6 +119,7 @@ function App() {
                   correctAnswers={correctAnswers}
                   initialTime={initialTime}
                   multipliers={multipliers}
+                  selectedMode={selectedMode}
                   onRestart={() => startGame(multipliers, initialTime)}
                 />
               )}

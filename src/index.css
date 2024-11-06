@@ -56,8 +56,8 @@
 /* Prevent scrolling on mobile */
 html,
 body {
-  overflow: hidden;
-  position: fixed;
+  /* overflow: hidden; */
+  /* position: fixed; */
   inset: 0;
   height: 100%;
 }
