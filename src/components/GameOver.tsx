@@ -7,10 +7,11 @@ interface GameOverProps {
   attempts: number;
   correctAnswers: number;
   initialTime: number;
+  multipliers: number[];
   onRestart: () => void;
 }
 
-export function GameOver({ score, attempts, correctAnswers, initialTime, onRestart }: GameOverProps) {
+export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, onRestart }: GameOverProps) {
   const navigate = useNavigate();
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -59,6 +60,10 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, onResta
             <div className="text-sm opacity-75">Temps</div>
           </div>
         </div>
+        <br />
+
+        <div className="text-xl mb-4">Tables : {multipliers.join(', ')}.</div>
+
         <br />
         <button
           onClick={handlePlayAgain}

@@ -19,6 +19,7 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers }: GamePro
   const [showRedCross, setShowRedCross] = useState(false);
 
   const generateQuestion = () => {
+    // Pick random numbers from the multipliers array
     const randomFirstNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
     const randomSecondNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
     setFirstNumber(randomFirstNumber);

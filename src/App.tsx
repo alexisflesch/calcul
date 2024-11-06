@@ -115,6 +115,7 @@ function App() {
                   attempts={attempts}
                   correctAnswers={correctAnswers}
                   initialTime={initialTime}
+                  multipliers={multipliers}
                   onRestart={() => startGame(multipliers, initialTime)}
                 />
               )}
