@@ -12,8 +12,8 @@ export function Numpad({ onNumber, onDelete, onEnter, disabled }: NumpadProps) {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="grid grid-cols-3 gap-3 w-full max-w-[300px] mx-auto">
+    <div className="flex justify-center h-screen mt-5">
+      <div className="grid grid-cols-3 gap-3 w-full max-w-[300px] max-h-[200px] mx-auto">
         {numbers.map((num) => (
           <button
             key={num}
