@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calculator } from 'lucide-react';
 
@@ -8,8 +8,8 @@ const defaultMultipliers = [3, 4, 5, 6, 7, 8, 9, 10];
 interface IndexPageProps {
     startGame: (multipliers: number[], time: number) => void;
     setTimeLeft: (time: number) => void;
-    selectedMode: "Multiplications" | "Additions";
-    setSelectedMode: (mode: "Multiplications" | "Additions") => void;
+    selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations";
+    setSelectedMode: (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations") => void;
 }
 
 export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMode }: IndexPageProps) {
@@ -33,13 +33,13 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
         navigate('/game');
     };
 
-    const getBackgroundColor = (mode: "Multiplications" | "Additions") => {
+    const getBackgroundColor = (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations") => {
         return selectedMode === mode ? "bg-blue-500 border-white" : "bg-white/10 border-white/10"; // Blue for selected mode, light gray for others
     };
 
     return (
-        <div className="h-[100dvh] bg-gradient-to-b from-blue-700 to-blue-800 text-white p-4 flex flex-col">
-            <div className="w-full h-full max-w-md mx-auto flex flex-col">
+        <div className="min-h-[100dvh] bg-gradient-to-b from-blue-700 to-blue-800 text-white p-4 flex flex-col">
+            <div className="w-full h-full max-w-md mx-auto flex flex-col flex-grow">
                 <h1 className="text-4xl font-bold mb-8 text-center">Calcul mental</h1>
                 <div
                     className={`backdrop-blur-lg rounded-3xl p-6 mb-6 ${getBackgroundColor("Multiplications")} border-4`}
@@ -67,17 +67,31 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
                 >
                     <h2 className="text-2xl font-bold mb-1 mt-1 ml-3">Additions</h2>
                 </div>
+                <div
+                    className={`backdrop-blur-lg rounded-3xl p-2 mb-6 ${getBackgroundColor("Soustractions")} border-4`}
+                    onClick={() => setSelectedMode("Soustractions")}
+                >
+                    <h2 className="text-2xl font-bold mb-1 mt-1 ml-3">Soustractions</h2>
+                </div>
+                <div
+                    className={`backdrop-blur-lg rounded-3xl p-2 mb-6 ${getBackgroundColor("Équations")} border-4`}
+                    onClick={() => setSelectedMode("Équations")}
+                >
+                    <h2 className="text-2xl font-bold mb-1 mt-1 ml-3">Équations</h2>
+                </div>
                 <div className="mt-4">
-                    <label className="block text-xl font-bold mb-2">Durée (en secondes) :</label>
+                    <label className="block text-xl font-bold mb-2">Durée (en secondes) : {time}</label>
                     <input
-                        type="number"
+                        type="range"
                         value={time}
                         onChange={(e) => setTime(parseInt(e.target.value, 10))}
-                        className="w-full h-12 p-5 aspect-square rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors flex items-center justify-center text-2xl font-bold"
-                        min="10"
+                        className="w-full h-12 rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors appearance-none"
+                        min="30"
                         max="300"
+                        step="10"
                     />
                 </div>
+
                 <br />
                 <button
                     onClick={handleStartGame}

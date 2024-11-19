@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Check, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { Numpad } from './Numpad';
 
 interface GameProps {
@@ -8,20 +8,31 @@ interface GameProps {
   debug: boolean;
   streak: number;
   multipliers: number[];
-  selectedMode: "Multiplications" | "Additions";
+  selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations";
 }
 
-export function Game({ onCorrect, onWrong, debug, streak, multipliers, selectedMode }: GameProps) {
-  const [firstNumber, setFirstNumber] = useState(0);
-  const [secondNumber, setSecondNumber] = useState(0);
-  const [answer, setAnswer] = useState('');
-  const [showFeedback, setShowFeedback] = useState<string | null>(null);
+export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: GameProps) {
+  const [equation, setEquation] = useState('');
+  const [shownEquation, setShownEquation] = useState('');
+  const [correctAnswer, setCorrectAnswer] = useState('');
+  const [userAnswer, setUserAnswer] = useState('');
   const [pointsScored, setPointsScored] = useState<number | null>(null);
   const [showRedCross, setShowRedCross] = useState(false);
 
+
+
+  useEffect(() => {
+    generateQuestion();
+  }, []);  // This runs only once when the component is mounted
+
+  useEffect(() => {
+    // This ensures that shownEquation is updated whenever equation changes
+    setShownEquation(equation);
+  }, [equation]);
+
   const generateQuestion = () => {
-    let randomFirstNumber;
-    let randomSecondNumber;
+    let randomFirstNumber = 0;
+    let randomSecondNumber = 0;
 
     if (selectedMode === 'Additions') {
       // Pick two random numbers between 1 and 12. Lower probability for 1 and 2
@@ -33,19 +44,48 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers, selectedM
         randomFirstNumber = Math.floor(Math.random() * 10) + 3;
         randomSecondNumber = Math.floor(Math.random() * 10) + 3;
       }
-    } else {
+      setEquation(`${randomFirstNumber} + ${randomSecondNumber} = _`);
+      setCorrectAnswer((randomFirstNumber + randomSecondNumber).toString());
+      setShownEquation(equation);
+    } else if (selectedMode === 'Multiplications') {
       // Pick random numbers from the multipliers array
       randomFirstNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
       randomSecondNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
+      setEquation(`${randomFirstNumber} × ${randomSecondNumber} = _`);
+      setCorrectAnswer((randomFirstNumber * randomSecondNumber).toString());
     }
-    setFirstNumber(randomFirstNumber);
-    setSecondNumber(randomSecondNumber);
-    setAnswer('');
+    else if (selectedMode === 'Soustractions') {
+      //Pick a random number between 1 and 12, 1 with a lower probability
+      if (Math.random() < .3) {
+        randomFirstNumber = Math.floor(Math.random() * 12) + 1;
+      }
+      else {
+        randomFirstNumber = Math.floor(Math.random() * 10) + 3;
+      }
+      randomSecondNumber = Math.floor(Math.random() * randomFirstNumber);
+      setEquation(`${randomFirstNumber} - ${randomSecondNumber} = _`);
+      setCorrectAnswer((randomFirstNumber - randomSecondNumber).toString());
+    }
+    else if (selectedMode === 'Équations') {
+      //Randomly creates an addition or substraction
+      if (Math.random() < .5) {
+        // Addition
+        randomFirstNumber = Math.floor(Math.random() * 12) + 1;
+        randomSecondNumber = Math.floor(Math.random() * randomFirstNumber);
+        setEquation(`${randomFirstNumber} = ${randomSecondNumber} +  _`);
+        setCorrectAnswer((randomFirstNumber - randomSecondNumber).toString());
+      }
+      else {
+        // Substraction
+        randomFirstNumber = Math.floor(Math.random() * 12) + 1;
+        randomSecondNumber = Math.floor(Math.random() * randomFirstNumber);
+        setEquation(`${randomSecondNumber} = ${randomFirstNumber} -  _`);
+        setCorrectAnswer((randomFirstNumber - randomSecondNumber).toString());
+      }
+      setShownEquation(equation);
+    }
   };
 
-  useEffect(() => {
-    generateQuestion();
-  }, []);
 
   useEffect(() => {
     if (pointsScored !== null) {
@@ -65,41 +105,33 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers, selectedM
     }
   }, [showRedCross]);
 
+
   const handleNumberInput = (num: number) => {
-    if (answer.length < 3) {
-      setAnswer((prev) => prev + num);
+    if (userAnswer.length < 3) {
+      const newAnswer = userAnswer + num;
+      setUserAnswer(newAnswer);
+      setShownEquation(equation.replace('_', newAnswer));  // Update shownEquation dynamically
     }
   };
 
   const handleDelete = () => {
-    setAnswer((prev) => prev.slice(0, -1));
+    const newAnswer = userAnswer.slice(0, -1);
+    setUserAnswer(newAnswer);
+    setShownEquation(equation.replace('_', newAnswer));  // Update shownEquation dynamically
   };
 
   const handleSubmit = () => {
-    let correctAnswer;
-    if (selectedMode === 'Additions') {
-      correctAnswer = firstNumber + secondNumber;
-    }
-    else {
-      correctAnswer = firstNumber * secondNumber;
-    }
-    const userAnswer = parseInt(answer, 10);
-
     if (userAnswer === correctAnswer) {
-      setShowFeedback('correct');
       handleCorrectAnswer();
       setTimeout(() => {
-        setShowFeedback(null);
         generateQuestion();
       }, 100);
     } else {
-      setShowFeedback('wrong');
       handleWrongAnswer();
       setTimeout(() => {
-        setShowFeedback(null);
-        setAnswer('');
       }, 1000);
     }
+    setUserAnswer('');
   };
 
   const handleCorrectAnswer = () => {
@@ -122,8 +154,7 @@ export function Game({ onCorrect, onWrong, debug, streak, multipliers, selectedM
     <div className="flex flex-col h-screen max-h-screen justify-between gap-4 overflow-hidden">
       <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 relative flex items-center justify-center max-h-[30vh] min-h-[80px] overflow-hidden">
         <div className="text-5xl md:text-6xl font-bold text-center">
-          {selectedMode === 'Additions' ? `${firstNumber} + ${secondNumber} ` : `${firstNumber} × ${secondNumber} `}
-          = {answer || '_'}
+          {shownEquation}
         </div>
       </div>
 

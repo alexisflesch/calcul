@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCw, Star } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 interface GameOverProps {
   score: number;
@@ -8,11 +8,11 @@ interface GameOverProps {
   correctAnswers: number;
   initialTime: number;
   multipliers: number[];
-  selectedMode: "Multiplications" | "Additions";
+  selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations";
   onRestart: () => void;
 }
 
-export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, onRestart, selectedMode }: GameOverProps) {
+export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, selectedMode }: GameOverProps) {
   const navigate = useNavigate();
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -29,7 +29,6 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
   };
 
   const percentage = attempts > 0 ? Math.round((correctAnswers / attempts) * 100) : 0;
-  const stars = Math.floor(score / 10);
 
   return (
     <div className="text-center">
@@ -50,7 +49,7 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
           </div>
           <div>
             <div className="text-3xl font-bold">{Math.round(correctAnswers * 60 / initialTime)}</div>
-            <div className="text-sm opacity-75">{selectedMode == "Additions" ? "Add" : "Mult"}  /min</div>
+            <div className="text-sm opacity-75">Op/min</div>
           </div>
           <div>
             <div className="text-3xl font-bold">{score}</div>
@@ -67,7 +66,7 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
           {selectedMode === 'Multiplications' ?
             <span>Tables : {multipliers.join(', ')}.</span>
             :
-            <span>Additions</span>}
+            <span>{selectedMode}</span>}
         </div>
 
         <br />
