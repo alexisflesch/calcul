@@ -8,7 +8,7 @@ interface GameProps {
   debug: boolean;
   streak: number;
   multipliers: number[];
-  selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations";
+  selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations" | "Divers";
 }
 
 export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: GameProps) {
@@ -83,6 +83,14 @@ export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: 
         setCorrectAnswer((randomFirstNumber - randomSecondNumber).toString());
       }
       setShownEquation(equation);
+    }
+    else if (selectedMode === 'Divers') {
+      // Pick a random number in [2,3,4,5,6,7,8,9,10,11,12,13,14,15,20]
+      let foo = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20]
+      randomFirstNumber = foo[Math.floor(Math.random() * foo.length)];
+      let secondNumber = 2;
+      setEquation(`${randomFirstNumber} × ${secondNumber} = _`);
+      setCorrectAnswer((randomFirstNumber * secondNumber).toString());
     }
   };
 

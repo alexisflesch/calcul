@@ -8,8 +8,8 @@ const defaultMultipliers = [3, 4, 5, 6, 7, 8, 9, 10];
 interface IndexPageProps {
     startGame: (multipliers: number[], time: number) => void;
     setTimeLeft: (time: number) => void;
-    selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations";
-    setSelectedMode: (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations") => void;
+    selectedMode: "Multiplications" | "Additions" | "Soustractions" | "Équations" | "Divers";
+    setSelectedMode: (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations" | "Divers") => void;
 }
 
 export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMode }: IndexPageProps) {
@@ -33,7 +33,7 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
         navigate('/game');
     };
 
-    const getBackgroundColor = (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations") => {
+    const getBackgroundColor = (mode: "Multiplications" | "Additions" | "Soustractions" | "Équations" | "Divers") => {
         return selectedMode === mode ? "bg-blue-500 border-white" : "bg-white/10 border-white/10"; // Blue for selected mode, light gray for others
     };
 
@@ -79,6 +79,12 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
                 >
                     <h2 className="text-2xl font-bold mb-1 mt-1 ml-3">Équations</h2>
                 </div>
+                <div
+                    className={`backdrop-blur-lg rounded-3xl p-2 mb-6 ${getBackgroundColor("Divers")} border-4`}
+                    onClick={() => setSelectedMode("Divers")}
+                >
+                    <h2 className="text-2xl font-bold mb-1 mt-1 ml-3">Divers</h2>
+                </div>
                 <div className="mt-4">
                     <label className="block text-xl font-bold mb-2">Durée (en secondes) : {time}</label>
                     <input
@@ -87,7 +93,7 @@ export function IndexPage({ startGame, setTimeLeft, selectedMode, setSelectedMod
                         onChange={(e) => setTime(parseInt(e.target.value, 10))}
                         className="w-full h-12 rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors appearance-none"
                         min="30"
-                        max="300"
+                        max="600"
                         step="10"
                     />
                 </div>

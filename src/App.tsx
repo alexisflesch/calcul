@@ -17,7 +17,7 @@ function App() {
   const [pointsScored, setPointsScored] = useState<number | null>(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [multipliers, setMultipliers] = useState<number[]>([3, 4, 5, 6, 7, 8, 9, 10]);
-  const [selectedMode, setSelectedMode] = useState<"Multiplications" | "Additions" | "Soustractions" | "Équations">("Multiplications"); // Track selected mode
+  const [selectedMode, setSelectedMode] = useState<"Multiplications" | "Additions" | "Soustractions" | "Équations" | "Divers">("Multiplications"); // Track selected mode
 
 
   const location = useLocation();
