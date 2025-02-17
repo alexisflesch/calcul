@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCw, Star } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 interface GameOverProps {
   score: number;
@@ -12,7 +12,7 @@ interface GameOverProps {
   onRestart: () => void;
 }
 
-export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, selectedMode, onRestart }: GameOverProps) {
+export function GameOver({ score, attempts, correctAnswers, initialTime, multipliers, selectedMode }: GameOverProps) {
   const navigate = useNavigate();
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -29,7 +29,6 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
   };
 
   const percentage = attempts > 0 ? Math.round((correctAnswers / attempts) * 100) : 0;
-  const stars = Math.floor(score / 10);
 
   return (
     <div className="text-center">
