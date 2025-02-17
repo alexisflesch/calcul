@@ -49,7 +49,7 @@ export function GameOver({ score, attempts, correctAnswers, initialTime, multipl
           </div>
           <div>
             <div className="text-3xl font-bold">{Math.round(correctAnswers * 60 / initialTime)}</div>
-            <div className="text-sm opacity-75">Mult/min</div>
+            <div className="text-sm opacity-75">Op/min</div>
           </div>
           <div>
             <div className="text-3xl font-bold">{score}</div>

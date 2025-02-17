@@ -46,7 +46,6 @@ export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: 
       }
       setEquation(`${randomFirstNumber} + ${randomSecondNumber} = _`);
       setCorrectAnswer((randomFirstNumber + randomSecondNumber).toString());
-      setShownEquation(equation);
     } else if (selectedMode === 'Multiplications') {
       // Pick random numbers from the multipliers array
       randomFirstNumber = multipliers[Math.floor(Math.random() * multipliers.length)];
@@ -82,7 +81,6 @@ export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: 
         setEquation(`${randomSecondNumber} = ${randomFirstNumber} -  _`);
         setCorrectAnswer((randomFirstNumber - randomSecondNumber).toString());
       }
-      setShownEquation(equation);
     }
     else if (selectedMode === 'Divers') {
       // With probability .5, compute doubles, else compute a random addition
@@ -100,6 +98,7 @@ export function Game({ onCorrect, onWrong, streak, multipliers, selectedMode }: 
         setCorrectAnswer((randomFirstNumber + randomSecondNumber).toString());
       }
     }
+    setShownEquation(equation);
   };
 
 
